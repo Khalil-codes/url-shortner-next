@@ -18,7 +18,7 @@ const user = true;
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header className="sticky top-0 z-40 w-full border-b-2 bg-background/40 shadow-sm backdrop-blur-3xl">
       <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 font-bold">
           <LinkIcon className="h-6 w-6" />

@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className)}>
+      <body className={cn(inter.className, "flex min-h-screen flex-col")}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Header />
           {children}
