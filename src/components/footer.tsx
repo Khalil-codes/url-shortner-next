@@ -1,12 +1,11 @@
-import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-muted p-6 text-xs text-muted-foreground">
-      <div className="container flex items-center justify-center">
-        <p>&copy; 2024 URL Shortener</p>
-      </div>
+    <footer className="flex w-full items-center border-t bg-white/50 px-4 py-6 backdrop-blur-sm dark:bg-gray-800/50 md:px-6">
+      <p className="container mx-auto text-xs text-gray-700 dark:text-gray-300">
+        © {new Date().getFullYear()} ShrinkIt | All rights reserved.
+      </p>
     </footer>
   );
 };
