@@ -5,14 +5,14 @@ import Login from "@/components/login";
 import Signup from "@/components/signup";
 
 type Props = {
-  searchParams: { screen: "login" | "signup"; next: string };
+  searchParams: { screen: "login" | "signup" };
 };
 
 const AuthPage = ({ searchParams }: Props) => {
-  const { screen } = searchParams;
+  const { screen = "login" } = searchParams;
   return (
     <main className="container flex flex-1 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-      <Tabs defaultValue={screen || "login"} className="w-[400px]">
+      <Tabs defaultValue={screen} className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login" asChild>
             <Link
@@ -23,7 +23,7 @@ const AuthPage = ({ searchParams }: Props) => {
               Login
             </Link>
           </TabsTrigger>
-          <TabsTrigger value="signup">
+          <TabsTrigger value="signup" asChild>
             <Link
               href={"/auth?screen=signup"}
               prefetch={false}

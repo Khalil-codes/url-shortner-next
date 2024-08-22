@@ -27,9 +27,9 @@ import { useParams } from "next/navigation";
 import { toast } from "./ui/use-toast";
 
 export const signupSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().trim().min(2),
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().trim().min(6),
 });
 
 export type SignupSchema = z.infer<typeof signupSchema>;
