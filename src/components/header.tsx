@@ -13,12 +13,17 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
+import { createClient } from "@/lib/supabase/server";
+import { signOut } from "@/app/auth/action";
+import { getIntials } from "@/lib/utils";
 
-const user = true;
-
-const Header = () => {
+const Header = async () => {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
-    <header className="sticky top-0 flex items-center px-4 py-3 lg:px-6">
+    <header className="sticky top-0 flex items-center border-b border-border bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:px-6">
       <Link
         className="flex items-center justify-center gap-2 text-xl font-bold"
         href="/">
@@ -44,17 +49,25 @@ const Header = () => {
             <DropdownMenuTrigger>
               <Avatar className="flex items-center justify-center rounded-full border bg-secondary">
                 <AvatarImage src="" />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarFallback>
+                  {getIntials(user.user_metadata.name || "U")}
+                </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Username</DropdownMenuLabel>
+              <DropdownMenuLabel>{user.user_metadata.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>My Links</DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-destructive focus:text-destructive-foreground">
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-              </DropdownMenuItem>
+              <form action={signOut}>
+                <DropdownMenuItem
+                  className="focus:bg-destructive focus:text-destructive-foreground"
+                  asChild>
+                  <button type="submit" className="w-full">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </button>
+                </DropdownMenuItem>
+              </form>
             </DropdownMenuContent>
           </DropdownMenu>
         )}
