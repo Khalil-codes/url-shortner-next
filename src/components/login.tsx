@@ -32,12 +32,18 @@ export const loginSchema = z.object({
   password: z.string().min(6),
 });
 
-export type FormData = z.infer<typeof loginSchema>;
+export type LoginSchema = z.infer<typeof loginSchema>;
+
+const DEFAULT_VALUES: LoginSchema = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
   const params = useParams<{ next?: string }>();
-  const form = useForm<FormData>({
+  const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
+    defaultValues: DEFAULT_VALUES,
   });
 
   const {
@@ -46,7 +52,7 @@ const Login = () => {
     reset,
   } = form;
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: LoginSchema) => {
     console.log(data);
     const response = await signInWithEmail(data, {
       next: params?.next,

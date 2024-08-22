@@ -26,18 +26,50 @@ import { signUpWithEmail } from "@/app/auth/action";
 import { useParams } from "next/navigation";
 import { toast } from "./ui/use-toast";
 
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+
 export const signupSchema = z.object({
   name: z.string().trim().min(2),
   email: z.string().email(),
   password: z.string().trim().min(6),
+  profile: z
+    .any()
+    .refine((file) => file.size !== 0, "Please upload an image")
+    .refine(
+      (files: File[]) => {
+        console.log(files);
+        return Array.from(files).every((file) => file instanceof File);
+      },
+      { message: "Expected a file" }
+    )
+    .refine(
+      (files: File[]) =>
+        Array.from(files).every((file) =>
+          ACCEPTED_IMAGE_TYPES.includes(file.type)
+        ),
+      "Only these types are allowed .jpg, .jpeg, .png and .webp"
+    ),
 });
 
 export type SignupSchema = z.infer<typeof signupSchema>;
+
+const DEFAULT_VALUES: SignupSchema = {
+  name: "",
+  email: "",
+  password: "",
+  profile: undefined,
+};
 
 const Signup = () => {
   const params = useParams<{ next?: string }>();
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
+    defaultValues: DEFAULT_VALUES,
   });
 
   const {
@@ -83,7 +115,7 @@ const Signup = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Yorur name</FormLabel>
+                  <FormLabel>Your name</FormLabel>
                   <FormControl>
                     <Input placeholder="Arya Stark" {...field} />
                   </FormControl>
@@ -115,6 +147,30 @@ const Signup = () => {
                       type="password"
                       placeholder="* * * * * * * *"
                       {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="profile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your profile picture</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      {...field}
+                      value={undefined}
+                      onChange={(event) => {
+                        console.log(event.target.files);
+                        if (event.target.files) {
+                          field.onChange(event.target.files);
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
