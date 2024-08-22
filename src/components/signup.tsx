@@ -43,6 +43,7 @@ const Signup = () => {
   const {
     formState: { isSubmitting },
     control,
+    reset,
   } = form;
 
   const onSubmit = async (data: SignupSchema) => {
@@ -58,7 +59,7 @@ const Signup = () => {
         variant: "destructive",
       });
     }
-
+    reset();
     toast({
       description: "Signup successful",
       title: "Success",

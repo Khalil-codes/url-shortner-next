@@ -43,6 +43,7 @@ const Login = () => {
   const {
     formState: { isSubmitting },
     control,
+    reset,
   } = form;
 
   const onSubmit = async (data: FormData) => {
@@ -58,7 +59,7 @@ const Login = () => {
         variant: "destructive",
       });
     }
-
+    reset();
     toast({
       description: "Login successful",
       title: "Success",
