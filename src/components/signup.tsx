@@ -79,8 +79,14 @@ const Signup = () => {
   } = form;
 
   const onSubmit = async (data: SignupSchema) => {
-    console.log(data);
-    const response = await signUpWithEmail(data, {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("profile", data.profile[0]);
+
+    const response = await signUpWithEmail(formData, {
       next: params?.next,
     });
 

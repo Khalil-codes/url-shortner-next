@@ -1,13 +1,13 @@
 "use server";
 
-import type { FormData } from "@/components/login";
+import type { LoginSchema } from "@/components/login";
 import type { SignupSchema } from "@/components/signup";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const signInWithEmail = async (
-  data: FormData,
+  data: LoginSchema,
   params?: { next?: string }
 ) => {
   const supabase = createClient();
@@ -27,10 +27,30 @@ export const signInWithEmail = async (
 };
 
 export const signUpWithEmail = async (
-  data: SignupSchema,
+  formData: FormData,
   params?: { next?: string }
 ) => {
+  const data = {
+    name: formData.get("name") as string,
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+    profile: formData.get("profile") as File,
+  };
+
   const supabase = createClient();
+
+  const buffer = Buffer.from(await data.profile.arrayBuffer());
+  const fileName = `avatar-${data.name.split(" ").join("-").toLowerCase()}-${new Date().getTime()}.${data.profile.name.split(".").pop()}`;
+  const { data: avatar, error: avatarError } = await supabase.storage
+    .from("profile_picture")
+    .upload(fileName, buffer);
+
+  if (avatarError) {
+    return { error: avatarError.message };
+  }
+
+  console.log(avatar);
+  console.log(supabase.storage.from("profile_picture").getPublicUrl(fileName));
 
   const { error } = await supabase.auth.signUp({
     email: data.email,
@@ -38,6 +58,7 @@ export const signUpWithEmail = async (
     options: {
       data: {
         name: data.name,
+        avatar_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/profile_picture/${fileName}`,
       },
     },
   });
