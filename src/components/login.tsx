@@ -52,7 +52,6 @@ const Login = () => {
   } = form;
 
   const onSubmit = async (data: LoginSchema) => {
-    console.log(data);
     const response = await signInWithEmail(data, {
       next: params?.next,
     });

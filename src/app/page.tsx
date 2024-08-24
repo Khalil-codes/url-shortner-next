@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/server";
 import { BarChartIcon, ShieldCheckIcon, SmartphoneIcon } from "lucide-react";
 
 export default async function Home() {
-  const supabase = createClient();
-  const { data } = await supabase.from("urls").select("*");
-  console.log(data);
   return (
     <main className="flex-1">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">

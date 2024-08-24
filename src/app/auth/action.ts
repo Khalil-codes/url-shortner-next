@@ -49,9 +49,6 @@ export const signUpWithEmail = async (
     return { error: avatarError.message };
   }
 
-  console.log(avatar);
-  console.log(supabase.storage.from("profile_picture").getPublicUrl(fileName));
-
   const { error } = await supabase.auth.signUp({
     email: data.email,
     password: data.password,

@@ -42,7 +42,6 @@ export const signupSchema = z.object({
     .refine((file) => file.size !== 0, "Please upload an image")
     .refine(
       (files: File[]) => {
-        console.log(files);
         return Array.from(files).every((file) => file instanceof File);
       },
       { message: "Expected a file" }
@@ -172,7 +171,6 @@ const Signup = () => {
                       {...field}
                       value={undefined}
                       onChange={(event) => {
-                        console.log(event.target.files);
                         if (event.target.files) {
                           field.onChange(event.target.files);
                         }

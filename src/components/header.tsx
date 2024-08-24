@@ -45,7 +45,12 @@ const Header = async () => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar className="flex items-center justify-center rounded-full border bg-secondary">
-                <AvatarImage src="" />
+                {user.user_metadata.avatar_url && (
+                  <AvatarImage
+                    src={user.user_metadata.avatar_url}
+                    alt={user.user_metadata.name}
+                  />
+                )}
                 <AvatarFallback>
                   {getIntials(user.user_metadata.name || "U")}
                 </AvatarFallback>
