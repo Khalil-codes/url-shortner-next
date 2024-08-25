@@ -13,21 +13,21 @@ export type Database = {
         Row: {
           created_at: string;
           device: string | null;
-          id: number;
+          id: string;
           location: string | null;
           url_id: string | null;
         };
         Insert: {
           created_at?: string;
           device?: string | null;
-          id?: number;
+          id?: string;
           location?: string | null;
           url_id?: string | null;
         };
         Update: {
           created_at?: string;
           device?: string | null;
-          id?: number;
+          id?: string;
           location?: string | null;
           url_id?: string | null;
         };
@@ -44,6 +44,7 @@ export type Database = {
       urls: {
         Row: {
           alias: string | null;
+          clicks_count: number;
           created_at: string;
           id: string;
           original_url: string | null;
@@ -54,6 +55,7 @@ export type Database = {
         };
         Insert: {
           alias?: string | null;
+          clicks_count?: number;
           created_at?: string;
           id?: string;
           original_url?: string | null;
@@ -64,6 +66,7 @@ export type Database = {
         };
         Update: {
           alias?: string | null;
+          clicks_count?: number;
           created_at?: string;
           id?: string;
           original_url?: string | null;
@@ -87,7 +90,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      increment: {
+        Args: {
+          row_id: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;
