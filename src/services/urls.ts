@@ -8,13 +8,32 @@ export async function getUrls() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  const { data: total_clicks } = await supabase
-    .from("urls")
-    .select<string, { sum: number }>("clicks_count.sum()", { count: "exact" });
-
   if (error) {
     throw new Error(error.message);
   }
 
-  return { urls, total_clicks: total_clicks?.[0].sum || 0 };
+  return urls;
 }
+
+export const getUrlbySlug = async (slug: string) => {
+  const supabase = createClient();
+
+  const { data: url, error } = await supabase
+    .from("urls")
+    .select("*")
+    .eq("shortened_url", slug)
+    .single();
+
+  if (error || !url) {
+    console.error(error);
+    return { url: null };
+  }
+
+  const { data: clicks, error: clicksError } = await supabase
+    .from("clicks")
+    .select("*")
+    .eq("url_id", url.id)
+    .order("created_at", { ascending: false });
+
+  return { url, clicks: clicks || [] };
+};

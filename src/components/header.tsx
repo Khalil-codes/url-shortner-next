@@ -20,7 +20,7 @@ import { getIntials } from "@/lib/utils";
 const Header = async () => {
   const user = await getUser();
   return (
-    <header className="sticky top-0 flex items-center border-b border-border bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:px-6">
+    <header className="sticky top-0 z-10 flex items-center border-b border-border bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:px-6">
       <Link
         className="flex items-center justify-center gap-2 text-xl font-bold"
         href="/">
