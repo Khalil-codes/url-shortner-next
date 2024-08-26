@@ -1,16 +1,14 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { getAnalyticsForUrls } from "@/services/clicks";
+import { getOverallAnalytics } from "@/services/clicks";
 import { getUrls } from "@/services/urls";
-import { BarChart2, TrendingUp, Users } from "lucide-react";
+import { BarChart2, Users } from "lucide-react";
 import MetricCard from "./metric-card";
 import URLForm from "./url-form";
 import RecentLinks from "./recents";
 
 const DashboardPage = async () => {
   const urls = await getUrls();
-  const { clicks, new_visitors_count, total_clicks } =
-    await getAnalyticsForUrls(urls.map((url) => url.id));
+  const { new_visitors_count, total_clicks } = await getOverallAnalytics();
 
   const metrics = [
     {
