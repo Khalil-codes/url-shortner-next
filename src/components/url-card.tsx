@@ -20,9 +20,7 @@ const UrlCard = ({ link }: Props) => {
       <CardContent className="flex flex-col justify-between gap-4 p-6 sm:flex-row sm:items-center">
         <div className="flex flex-col gap-2">
           <h3 className="text-2xl font-bold sm:text-3xl">
-            <Link href={`/dashboard/${link.shortened_url!}`} target="_blank">
-              {link.title}
-            </Link>
+            <Link href={`/dashboard/${link.shortened_url!}`}>{link.title}</Link>
           </h3>
           <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
             {buildFullUrl(link.shortened_url)}

@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 // function to generate 6 character random string
 const generateRandomString = (length: number = 6) => {
@@ -37,4 +38,5 @@ export const deleteUrl = async (urlId: string) => {
   if (error) {
     throw new Error(error.message);
   }
+  revalidatePath("/dashboard");
 };

@@ -34,7 +34,7 @@ const DashboardPage = async () => {
   ];
 
   return (
-    <main className="container mx-auto flex flex-col gap-6 px-4 py-8">
+    <main className="container mx-auto flex flex-1 flex-col gap-6 px-4 py-8">
       <h1 className="text-center text-4xl font-bold">Your URL Dashboard</h1>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
