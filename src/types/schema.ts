@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       clicks: {
         Row: {
+          browser: string | null;
           created_at: string;
           device: string | null;
           id: string;
@@ -18,6 +19,7 @@ export type Database = {
           url_id: string | null;
         };
         Insert: {
+          browser?: string | null;
           created_at?: string;
           device?: string | null;
           id?: string;
@@ -25,6 +27,7 @@ export type Database = {
           url_id?: string | null;
         };
         Update: {
+          browser?: string | null;
           created_at?: string;
           device?: string | null;
           id?: string;
@@ -49,7 +52,7 @@ export type Database = {
           id: string;
           original_url: string | null;
           qr: string | null;
-          shortened_url: string | null;
+          shortened_url: string;
           title: string | null;
           user_id: string | null;
         };
@@ -60,7 +63,7 @@ export type Database = {
           id?: string;
           original_url?: string | null;
           qr?: string | null;
-          shortened_url?: string | null;
+          shortened_url: string;
           title?: string | null;
           user_id?: string | null;
         };
@@ -71,7 +74,7 @@ export type Database = {
           id?: string;
           original_url?: string | null;
           qr?: string | null;
-          shortened_url?: string | null;
+          shortened_url?: string;
           title?: string | null;
           user_id?: string | null;
         };
