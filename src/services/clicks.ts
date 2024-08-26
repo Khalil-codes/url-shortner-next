@@ -1,4 +1,6 @@
+import { getDates } from "@/lib/helpers";
 import { createClient } from "@/lib/supabase/server";
+import { startOfDay, sub } from "date-fns";
 
 export const getAnalyticsForUrls = async (urlIds: string[]) => {
   const supabase = createClient();
@@ -46,5 +48,42 @@ export const getAnalyticsForUrls = async (urlIds: string[]) => {
     clicks: Object.fromEntries(clicksMap.entries()),
     total_clicks: total_clicks?.[0].sum || 0,
     new_visitors_count: new_visitors_count || 0,
+  };
+};
+export const getUrlAnalytics = async (urlId: string) => {
+  const supabase = createClient();
+
+  // Total Count
+  const { count } = await supabase
+    .from("clicks")
+    .select("id.count()", { count: "exact" })
+    .eq("url_id", urlId);
+
+  // Get Device Data
+  const { data: device_data } = await supabase
+    .from("clicks")
+    .select("device, id.count()", { count: "exact" })
+    .eq("url_id", urlId);
+
+  // Get Browser Data
+  const { data: browser_data } = await supabase
+    .from("clicks")
+    .select("browser, id.count()", { count: "exact" })
+    .eq("url_id", urlId);
+
+  // Get Date Based Clicks for past 7 days
+  const { data: dates_data } = await supabase
+    .from("clicks")
+    .select("clicked_at:created_at::date, id.count()")
+    .eq("url_id", urlId)
+    .gte("created_at", startOfDay(sub(new Date(), { days: 6 })).toISOString());
+
+  return {
+    device_data: device_data || [],
+    browser_data: browser_data || [],
+    dates_data: getDates(
+      dates_data?.map((d) => ({ date: d.clicked_at, clicks: d.count }))
+    ),
+    total_clicks: count || 0,
   };
 };

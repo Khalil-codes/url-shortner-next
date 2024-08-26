@@ -5,6 +5,9 @@ import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { buildFullUrl } from "@/lib/utils";
 import { getUrlbySlug } from "@/services/urls";
+import { getUrlAnalytics } from "@/services/clicks";
+import DetailCard from "./_components/detail-card";
+import ClickStats from "./_components/click-stats";
 
 type Props = {
   params: {
@@ -20,6 +23,8 @@ const LinkDetail = async ({ params }: Props) => {
   if (!url) {
     return notFound();
   }
+  const { device_data, browser_data, total_clicks, dates_data } =
+    await getUrlAnalytics(url.id);
 
   //   const clickData = clicks.reduce((acc, click) => {
   //     const date = format
@@ -71,6 +76,27 @@ const LinkDetail = async ({ params }: Props) => {
           </div>
         </CardContent>
       </Card>
+      <ClickStats data={dates_data} />
+      <div className="grid gap-4 md:grid-cols-2">
+        <DetailCard
+          title="Device Usage"
+          columns={["Device", "Clicks", "Percentage"]}
+          data={device_data.map((item) => ({
+            value: item.count,
+            name: item.device || "Unknown",
+            percentage: ((item.count / total_clicks) * 100).toFixed(2),
+          }))}
+        />
+        <DetailCard
+          title="Browser Usage"
+          columns={["Browser", "Clicks", "Percentage"]}
+          data={browser_data.map((item) => ({
+            value: item.count,
+            name: item.browser || "Unknown",
+            percentage: ((item.count / total_clicks) * 100).toFixed(2),
+          }))}
+        />
+      </div>
     </main>
   );
 };
