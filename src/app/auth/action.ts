@@ -41,7 +41,7 @@ export const signUpWithEmail = async (
 
   const buffer = Buffer.from(await data.profile.arrayBuffer());
   const fileName = `avatar-${data.name.split(" ").join("-").toLowerCase()}-${new Date().getTime()}.${data.profile.name.split(".").pop()}`;
-  const { data: avatar, error: avatarError } = await supabase.storage
+  const { error: avatarError } = await supabase.storage
     .from("profile_picture")
     .upload(fileName, buffer);
 

@@ -7,13 +7,14 @@ import { TooltipContent } from "@radix-ui/react-tooltip";
 import ButtonWithTooltip from "./button-with-tooltip";
 
 type Props = {
-  text: string;
+  text: string | null;
 };
 
 const CopyButton = ({ text }: Props) => {
   const [isCopied, setIsCopied] = useState(false);
 
-  const handleCopy = (shortUrl: string) => {
+  const handleCopy = (shortUrl: string | null) => {
+    if (!shortUrl) return;
     navigator.clipboard.writeText(shortUrl).then(() => {
       setIsCopied(true);
       setTimeout(() => {

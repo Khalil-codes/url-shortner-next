@@ -23,7 +23,7 @@ const UrlCard = ({ link }: Props) => {
             <Link href={`/dashboard/${link.shortened_url!}`}>{link.title}</Link>
           </h3>
           <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
-            {buildFullUrl(link.shortened_url)}
+            {buildFullUrl(link.alias || link.shortened_url)}
           </p>
           <p className="max-w-[30ch] truncate text-sm text-muted-foreground sm:max-w-md">
             {link.original_url}
@@ -40,11 +40,13 @@ const UrlCard = ({ link }: Props) => {
               size="icon"
               asChild
               tooltipContent={<p>Visit Link</p>}>
-              <Link href={link.shortened_url!} target="_blank">
+              <Link
+                href={"/" + link.alias || link.shortened_url!}
+                target="_blank">
                 <ExternalLink className="h-4 w-4" />
               </Link>
             </ButtonWithTooltip>
-            <CopyButton text={link.shortened_url!} />
+            <CopyButton text={buildFullUrl(link.alias || link.shortened_url)} />
             <ButtonWithTooltip
               variant="outline"
               size="icon"

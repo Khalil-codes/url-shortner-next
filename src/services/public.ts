@@ -9,7 +9,7 @@ export const getPublicUrlData = async (slug: string) => {
   const { data: url, error } = await supabase
     .from("urls")
     .select("*")
-    .eq("shortened_url", slug)
+    .or(`shortened_url.eq.${slug},alias.eq.${slug}`)
     .single();
 
   if (error || !url) {

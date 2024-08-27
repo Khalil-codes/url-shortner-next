@@ -29,7 +29,7 @@ export const getUrlbySlug = async (slug: string) => {
     return { url: null };
   }
 
-  const { data: clicks, error: clicksError } = await supabase
+  const { data: clicks } = await supabase
     .from("clicks")
     .select("*")
     .eq("url_id", url.id)
