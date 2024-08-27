@@ -19,6 +19,9 @@ type Props = {
   };
 };
 
+const BLUR_DATA_URL =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO8evVaAQAH+QLykc8QfQAAAABJRU5ErkJggg==";
+
 const LinkDetail = async ({ params }: Props) => {
   const { slug } = params;
 
@@ -101,6 +104,8 @@ const LinkDetail = async ({ params }: Props) => {
               width={250}
               height={250}
               className="rounded-lg ring-1 ring-offset-1 max-md:w-full"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
             />
           </CardContent>
         </Card>
@@ -132,12 +137,13 @@ const LinkDetail = async ({ params }: Props) => {
           Back to Dashboard
         </Link>
         <div className="flex justify-end gap-4">
-          <Button variant="outline" asChild>
+          {/* TODO */}
+          {/* <Button variant="outline" asChild>
             <Link href={`/dashboard/form?id=${url.id}`}>
               <Pencil className="mr-2 h-4 w-4" />
               Edit Link
             </Link>
-          </Button>
+          </Button> */}
           <form
             action={async () => {
               "use server";
