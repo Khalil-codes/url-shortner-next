@@ -37,3 +37,20 @@ export const getUrlbySlug = async (slug: string) => {
 
   return { url, clicks: clicks || [] };
 };
+
+export const getUrlbyId = async (id: string) => {
+  const supabase = createClient();
+
+  const { data: url, error } = await supabase
+    .from("urls")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !url) {
+    console.error(error);
+    return null;
+  }
+
+  return url;
+};
