@@ -4,13 +4,13 @@ import { BarChart2, ExternalLink, Trash2 } from "lucide-react";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import ButtonWithTooltip from "./button-with-tooltip";
 import CopyButton from "./copy-button";
-import { URL } from "@/types/custom";
+import { URLWithClickCount } from "@/types/custom";
 import { buildFullUrl } from "@/lib/utils";
 import { deleteUrl } from "@/app/dashboard/actions";
 import Link from "next/link";
 
 type Props = {
-  link: URL;
+  link: URLWithClickCount;
 };
 
 const UrlCard = ({ link }: Props) => {
@@ -30,7 +30,9 @@ const UrlCard = ({ link }: Props) => {
           </p>
           <p className="text-sm">
             Clicks:{" "}
-            <span className="font-bold text-primary">{link.clicks_count}</span>
+            <span className="font-bold text-primary">
+              {link.clicks[0].count}
+            </span>
           </p>
         </div>
         <TooltipProvider>
@@ -50,8 +52,11 @@ const UrlCard = ({ link }: Props) => {
             <ButtonWithTooltip
               variant="outline"
               size="icon"
+              asChild
               tooltipContent={<p>View Analytics</p>}>
-              <BarChart2 className="h-4 w-4" />
+              <Link href={`/dashboard/${link.shortened_url!}`}>
+                <BarChart2 className="h-4 w-4" />
+              </Link>
             </ButtonWithTooltip>
             <form action={deleteAction}>
               <ButtonWithTooltip

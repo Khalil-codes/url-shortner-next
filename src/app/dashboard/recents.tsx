@@ -2,11 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { URL } from "@/types/custom";
+import { URLWithClickCount } from "@/types/custom";
 import UrlCard from "@/components/url-card";
 
 type Props = {
-  link: URL;
+  link: URLWithClickCount;
   index: number;
 };
 

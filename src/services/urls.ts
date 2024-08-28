@@ -1,11 +1,12 @@
 import { createClient } from "@/lib/supabase/server";
+import { URL, URLWithClickCount } from "@/types/custom";
 
 export async function getUrls() {
   const supabase = createClient();
 
   const { data: urls, error } = await supabase
     .from("urls")
-    .select("*")
+    .select<string, URLWithClickCount>("*,clicks(id.count())")
     .order("created_at", { ascending: false });
 
   if (error) {

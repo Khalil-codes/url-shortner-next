@@ -6,9 +6,12 @@ export const getOverallAnalytics = async () => {
   const supabase = createClient();
 
   // Get Total Clicks
-  const { data: total_clicks } = await supabase
-    .from("urls")
-    .select<string, { sum: number }>("clicks_count.sum()", { count: "exact" });
+  const { count: total_clicks } = await supabase
+    .from("clicks")
+    .select("id.count(), urls(user_id)", {
+      count: "exact",
+    })
+    .not("urls", "is", null);
 
   // Get New Visitors in the last 24 hours
   const { count: new_visitors_count } = await supabase
@@ -23,7 +26,7 @@ export const getOverallAnalytics = async () => {
     );
 
   return {
-    total_clicks: total_clicks?.[0].sum || 0,
+    total_clicks: total_clicks || 0,
     new_visitors_count: new_visitors_count || 0,
   };
 };
