@@ -31,25 +31,30 @@ const URLFormSchema = z.object({
     .string()
     .min(3, { message: "Custom Link must be at least 3 characters" })
     .optional()
-    .refine(async (val) => {
-      if (!val) return true;
+    .refine(
+      async (val) => {
+        if (!val) return true;
 
-      const supabase = createClient();
-      const { data } = await supabase
-        .from("urls")
-        .select("id")
-        .eq("alias", val);
+        const supabase = createClient();
+        const { data } = await supabase
+          .from("urls")
+          .select("id")
+          .eq("alias", val);
 
-      if (data) return "Link should be unique";
+        if (data) return false;
 
-      return true;
-    }),
+        return true;
+      },
+      { message: "Custom Link already exists" }
+    )
+    .or(z.literal("")),
 });
 
 export type URLFormType = z.infer<typeof URLFormSchema>;
 
 const Form = ({ url }: Props) => {
   const form = useForm<URLFormType>({
+    mode: "onSubmit",
     resolver: zodResolver(URLFormSchema),
     defaultValues: {
       title: url?.title || "",
