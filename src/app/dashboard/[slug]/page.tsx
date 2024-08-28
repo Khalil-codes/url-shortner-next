@@ -8,10 +8,25 @@ import { getUrlbySlug } from "@/services/urls";
 import { getUrlAnalytics } from "@/services/clicks";
 import DetailCard from "./_components/detail-card";
 import ClickStats from "./_components/click-stats";
-import { ArrowLeftIcon, Pencil, QrCodeIcon, Trash2 } from "lucide-react";
+import { ArrowLeftIcon, QrCodeIcon, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { deleteUrl } from "../actions";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slug = params.slug;
+
+  const { url } = await getUrlbySlug(slug);
+
+  if (!url) {
+    return notFound();
+  }
+
+  return {
+    title: `${url.title} | Shinkkit`,
+  };
+}
 
 type Props = {
   params: {

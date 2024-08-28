@@ -11,6 +11,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 import Form from "./_components/form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shorten your looongg URL | Shinkkit",
+};
 
 type Props = {
   searchParams: { id: string; url: string };

@@ -3,6 +3,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import Login from "@/components/login";
 import Signup from "@/components/signup";
+import { Metadata } from "next";
+
+export function generateMetadata({ searchParams }: Props): Metadata {
+  const { screen = "login" } = searchParams;
+  return {
+    title: `${screen === "login" ? "Login" : "Signup"} | Shinkkit`,
+  };
+}
 
 type Props = {
   searchParams: { screen: "login" | "signup" };

@@ -5,6 +5,11 @@ import { BarChart2, Users } from "lucide-react";
 import MetricCard from "./metric-card";
 import URLForm from "./url-form";
 import RecentLinks from "./recents";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Your Dashboard | Shinkkit",
+};
 
 const DashboardPage = async () => {
   const urls = await getUrls();
