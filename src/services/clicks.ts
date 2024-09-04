@@ -5,12 +5,21 @@ import { startOfDay, sub } from "date-fns";
 export const getOverallAnalytics = async () => {
   const supabase = createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {};
+  }
+
   // Get Total Clicks
   const { count: total_clicks } = await supabase
     .from("clicks")
     .select("id.count(), urls(user_id)", {
       count: "exact",
     })
+    .eq("urls.user_id", user.id)
     .not("urls", "is", null);
 
   // Get New Visitors in the last 24 hours
@@ -19,6 +28,7 @@ export const getOverallAnalytics = async () => {
     .select("id.count(), urls(user_id)", {
       count: "exact",
     })
+    .eq("urls.user_id", user.id)
     .not("urls", "is", null)
     .gte(
       "created_at",

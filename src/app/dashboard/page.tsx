@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 const DashboardPage = async () => {
   const urls = await getUrls();
-  const { new_visitors_count, total_clicks } = await getOverallAnalytics();
+  const { new_visitors_count = 0, total_clicks = 0 } =
+    await getOverallAnalytics();
 
   const metrics = [
     {
