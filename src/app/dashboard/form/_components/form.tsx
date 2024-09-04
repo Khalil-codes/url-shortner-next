@@ -39,9 +39,10 @@ const URLFormSchema = z.object({
         const { data } = await supabase
           .from("urls")
           .select("id")
-          .eq("alias", val);
+          .eq("alias", val)
+          .single();
 
-        if (data) return false;
+        if (data?.id) return false;
 
         return true;
       },
@@ -55,6 +56,7 @@ export type URLFormType = z.infer<typeof URLFormSchema>;
 const Form = ({ url }: Props) => {
   const form = useForm<URLFormType>({
     mode: "onSubmit",
+    reValidateMode: "onSubmit",
     resolver: zodResolver(URLFormSchema),
     defaultValues: {
       title: url?.title || "",
@@ -82,7 +84,7 @@ const Form = ({ url }: Props) => {
     }
     reset({ custom: "", long_url: "", title: "" });
     toast({
-      description: "Signup successful",
+      description: "Link Shortned successfully",
       title: "Success",
       variant: "default",
     });

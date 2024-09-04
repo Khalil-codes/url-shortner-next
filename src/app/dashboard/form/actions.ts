@@ -39,7 +39,7 @@ export const createUrl = async (data: URLFormType) => {
     title: data.title,
     original_url: data.long_url,
     shortened_url: link,
-    alias: data.custom,
+    alias: data.custom || null,
     user_id: user?.id,
     qr: `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/qr-codes/${qr}`,
   });
